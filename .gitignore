@@ -1,7 +1,8 @@
 __pycache__
-strava
 bin
 include
 lib
 pyvenv.cfg
 *.csv
+strava
+data

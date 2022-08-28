@@ -3,7 +3,9 @@ import pandas as pd
 import requests
 import time
 
-url = 'http://registration.baa.org/2016/cf/Public/iframe_ResultsSearch.cfm'
+YEAR = 2017
+
+url = 'http://registration.baa.org/{}/cf/Public/iframe_ResultsSearch.cfm'.format(YEAR)
 headers = {
 	'Accept': 'text/html',
 	'Content-Type': 'application/x-www-form-urlencoded',
@@ -76,7 +78,13 @@ def get_25_athletes(start=1, session=None):
 
 	athletes_info_table = [athlete.find_all('td') for athlete in soup.find_all('tr', {'class': 'tr_header' })]
 	for athlete in athletes_info_table:
-		athlete_info.append([val.string.strip() for val in athlete[: -2]])
+		a = []
+		for val in athlete[: -2]:
+			try:
+				a.append(val.string.strip())
+			except:
+				a.append(val.find('a').string.strip())
+		athlete_info.append(a)
 
 	athletes_times_table = [athlete.find_all('tr')[1::2] for athlete in soup.find_all('table', {'class': 'table_infogrid'})]
 	for athlete in athletes_times_table:
@@ -115,11 +123,11 @@ with requests.Session() as s:
 	s.headers = headers
 	s.params = params
 
-	for i in range(850):
-		time.sleep(0.5) # Don't wreck the server 
+	for i in range(832):
+		time.sleep(0.2) # Don't wreck the server 
 
 		df = get_25_athletes(start=i * 25 + 1, session=s)
-		df.to_csv('data.csv', mode='a', index=False, header=(i == 0))
+		df.to_csv('{}.csv'.format(YEAR), mode='a', index=False, header=(i == 0))
 
 		if i % 25 == 0:
-			print('Processed {} athletes'.format(i))
+			print('Processed {} athletes'.format(i * 25))
