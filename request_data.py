@@ -3,7 +3,7 @@ import pandas as pd
 import requests
 import time
 
-YEAR = 2019
+YEAR = 2015
 
 url = 'http://registration.baa.org/{}/cf/Public/iframe_ResultsSearch.cfm'.format(YEAR)
 headers = {
@@ -123,7 +123,7 @@ with requests.Session() as s:
 	s.headers = headers
 	s.params = params
 
-	for i in range(790):
+	for i in range(870):
 		time.sleep(0.2) # Don't wreck the server 
 
 		df = get_25_athletes(start=i * 25 + 1, session=s)
