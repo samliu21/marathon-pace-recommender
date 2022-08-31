@@ -20,4 +20,4 @@ print(predictions)
 print('\n\nFinal Times')
 print(final_times)
 
-
+model.summary()
