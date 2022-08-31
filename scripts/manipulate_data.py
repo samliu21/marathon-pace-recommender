@@ -9,26 +9,26 @@ def save(df, name):
 	df.to_csv('../data/{}'.format(name), index=False)
 	print('Saved...')
 
-# Sort rows of df by athlete name and city in place, then drop unnecessary columns
+# Sort rows of df by athlete name and nationality
 def sort_name_city(df):
-	df.sort_values(by=['Name', 'City'], inplace=True)
+	df.sort_values(by=['first_name', 'last_name', 'nationality'], inplace=True)
 	print('Sorted...')
 
 # Drop unnecessary columns
 def drop_unnecessary_cols(df):
-	df.drop(columns=['Bib', 'Country', 'Projected Time', 'Gender', 'Division'], inplace=True)
+	df.drop(columns=['club', 'year', 'Race'], inplace=True)
 	print('Unnecessary columns dropped...')
 
-# Removes all runners that cannot be uniquely represented by their name and city
+# Removes all runners that cannot be uniquely represented by their name and nationality
 def drop_nonunique_name_city(df):
-	# Checks whether athletes in a sorted df can be uniquely represented by name and city
+	# Checks whether athletes in a sorted df can be uniquely represented by name and nationality
 	# If check fails, the function throws exception with iloc of the first of the two runners, then returns
 	def check_unique_name_city(df):
 		for i in range(df.shape[0] - 1):
 			s = df.iloc[i]
 			sp = df.iloc[i + 1]
 
-			if s['Name'] == sp['Name'] and s['City'] == sp['City']:
+			if s['first_name'] == sp['first_name'] and s['last_name'] == sp['last_name'] and s['nationality'] == sp['nationality']:
 				raise Exception(i)
 
 	number_of_removals = 0 
@@ -40,7 +40,7 @@ def drop_nonunique_name_city(df):
 		except Exception as e:
 			r = int(str(e))  
 
-			print('Dropping rows {} and {}\nCommon name: {}, city: {}...'.format(r, r + 1, df.iloc[r]['Name'], df.iloc[r]['City']))
+			print('Dropping rows {} and {}\nCommon name: {} {}...'.format(r, r + 1, df.iloc[r]['first_name'], df.iloc[r]['last_name']))
 			df.drop(index=df.iloc[r : r + 2].index, inplace=True) # index keyword relies on no row number in .csv file
 
 			number_of_removals += 2
@@ -103,4 +103,3 @@ if __name__ == '__main__':
 		order_of_execution[3]()
 	if args.save:
 		order_of_execution[4]()
-
