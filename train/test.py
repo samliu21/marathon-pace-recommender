@@ -1,23 +1,16 @@
-import tensorflow as tf
+import torch
 
-model = tf.keras.models.load_model('model/model.h5')
+from model import model
+
+model.load_state_dict(torch.load('model/model.pt'))
+
 with open('model/mu+std.txt') as f:
 	mu = float(f.readline())
 	std = float(f.readline())
 
-data = [180, 240]
+data = [180., 240.,]
+data = torch.tensor(data).unsqueeze(-1)
 
-predictions = model.predict(data)
-predictions = predictions * std + mu
-
-dis = [5, 5, 5, 5, 1.0975, 3.9025, 5, 5, 5, 2.195]
-times = predictions * dis
-final_times = times.sum(axis=1)
-
-print('Paces')
+predictions = model(data)
+predictions = predictions * std + mu 
 print(predictions)
-
-print('\n\nFinal Times')
-print(final_times)
-
-model.summary()

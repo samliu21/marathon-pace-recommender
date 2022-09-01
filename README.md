@@ -25,15 +25,12 @@ To use `manipulate_data.py`, we call `python manipulate_data.py [data_file_to_ma
 For more information, look at the `data_cleaning` folder.
 
 ## Model
-The model is a simple neural network that is mostly dense layers, proceeded by a normalization layer and followed by an output layer.
+The model is a simple neural network made of dense layers.
 
 ```
 _________________________________________________________________
  Layer (type)                Output Shape              Param #   
 =================================================================
- normalization (Normalizatio  (None, 1)                3         
- n)                                                              
-                                                                 
  dense (Dense)               (None, 1)                 2         
                                                                  
  dense_1 (Dense)             (None, 16)                32        
@@ -43,8 +40,8 @@ _________________________________________________________________
  dense_3 (Dense)             (None, 10)                330       
                                                                  
 =================================================================
-Total params: 911
+Total params: 908
 Trainable params: 908
-Non-trainable params: 3
+Non-trainable params: 0
 _________________________________________________________________
 ```

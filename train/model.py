@@ -1,14 +1,14 @@
-import tensorflow as tf
+import torch
 
-model = tf.keras.Sequential([ 
-	tf.keras.layers.Normalization(),
-	tf.keras.layers.Dense(1, activation='relu'),
-	tf.keras.layers.Dense(16, activation='relu'),
-	tf.keras.layers.Dense(32, activation='relu'),
-	tf.keras.layers.Dense(10),
-])
-
-model.compile(
-	optimizer='adam',
-	loss='mse',
+model = torch.nn.Sequential(
+	torch.nn.Linear(1, 1),
+	torch.nn.ReLU(),
+	torch.nn.Linear(1, 16),
+	torch.nn.ReLU(),
+	torch.nn.Linear(16, 32),
+	torch.nn.ReLU(),
+	torch.nn.Linear(32, 10),
 )
+
+loss_func = torch.nn.MSELoss()
+optimizer = torch.optim.Adam(params=model.parameters(),)

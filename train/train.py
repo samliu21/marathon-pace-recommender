@@ -1,9 +1,11 @@
 import sys
 
+import numpy as np
 import pandas as pd
-import tensorflow as tf
+import torch
+from torch.utils.data import DataLoader, TensorDataset
 
-from model import model 
+from model import model, loss_func, optimizer
 
 df = pd.read_csv('../data/novel-races.csv')
 
@@ -48,25 +50,37 @@ _stack = pace_df.stack() # Used to get mu and std of whole df
 mu = _stack.mean()
 std = _stack.std() 
 
-x = time_df['time_full']
-y = (pace_df - mu) / std
+x_df = time_df['time_full']
+y_df = (pace_df - mu) / std
 EPOCHS = 1000
-early_stop = tf.keras.callbacks.EarlyStopping(
-	patience=50, 
-	restore_best_weights=True,
+BATCH_SIZE = 32
+
+x_tensor = torch.tensor(x_df.values.astype(np.float32)).reshape((x_df.shape[0], 1))
+y_tensor = torch.tensor(y_df.values.astype(np.float32))
+
+ds = DataLoader(
+	dataset=(TensorDataset(x_tensor, y_tensor)), 
+	batch_size=BATCH_SIZE, 
+	shuffle=True,
 )
 
-model.fit( # shuffle=True and batch_size=32 by default
-	x=x,
-	y=y, 
-	epochs=EPOCHS,
-	validation_split=0.1,
-	callbacks=[early_stop],
-)
+for i in range(EPOCHS):
+	total_loss = 0
 
-print(model.predict([120, 150, 180, 210, 240, 270, 300]) * std + mu) 
+	for batch_x, batch_y in ds:
+		optimizer.zero_grad()
 
-model.save('model/model.h5', overwrite=True,)
+		pred_y = model(batch_x)
+		loss = loss_func(pred_y, batch_y)
+		total_loss += loss.item()
+
+		loss.backward()
+		optimizer.step()
+
+	print('Epoch {}  {}'.format(i, total_loss / BATCH_SIZE))
+
+torch.save(model.state_dict(), 'model/model.pt')
+
 with open('model/mu+std.txt', 'w') as out:
 	out.write('{}\n{}'.format(mu, std))
 	
