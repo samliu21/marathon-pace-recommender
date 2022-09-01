@@ -1,10 +1,20 @@
 # marathon-pace-recommender
 
+## Live Website
+
+https://pace-recommender.herokuapp.com
+
 As a new runner 🏃 training for his first marathon, one of the things I'm struggling with is coming up with a proper pacing strategy for race day. 
 
 And then it hit me 💡... why don't I learn from runners who have already ran their first marathon? So, I looked at historical data on the world-famous Berlin marathon and examined the pacing strategy of runners who have experienced significant improvements on their finish time (e.g. > 30 mins).
 
-I then used a neural network to learn from this data and determine the best pacing strategy for a projected finish time. 
+I then used a neural network to learn from this data and determine the best pacing strategy for a projected finish time. Moreover, the user has the option to change the outputted pacing strategy using elevation data!
+
+## Reproducing Steps (Mac OS)
+1. Run `git clone https://github.com/samliu21/marathon-pace-recommender`. This will download a folder called `marathon-pace-recommender` containing all of the necessary files.
+2. Navigate into the folder using `cd marathon-pace-recommender`.
+3. Create a virtual environment using `python -m venv .` and activate it with `source bin/activate`.
+4. Install the necessary dependencies using `python -m pip install -r requirements.txt`.
 
 ## Data
 The following <a href="https://github.com/AndrewMillerOnline/marathon-results/tree/main/Berlin">dataset</a> was used. Here is the data cleaning process:
