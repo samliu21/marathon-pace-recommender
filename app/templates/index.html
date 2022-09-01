@@ -1,10 +1,52 @@
+{% from "_field.html" import render_field %}
+{% from "_elevation.html" import render_elevation_field %}
+
 <!DOCTYPE html>
 <html>
 	<head>
 		<title>Pace Recommender</title>
-		<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='styles/index.css') }}">
+		<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='styles/styles.css') }}">
+
+		<script>
+			const enter_elevation = () => {
+				const el = document.getElementById("elevation");
+
+				const elevationDiv = document.getElementById("elevation-div");
+				if (el.textContent === "Enter Elevation Data") {
+					el.textContent = "Hide Elevation Data";
+					
+					elevationDiv.style.display = "flex";
+					elevationDiv.style.justifyContent = "space-between";
+				}
+				else {
+					el.textContent = "Enter Elevation Data";
+
+					elevationDiv.style.display = "none";
+				}
+			}
+		</script>
 	</head>
 	<body>
 		<h2>Pace Recommender</h2>
+		<form action="/" method="POST">
+			{{ form.csrf_token }}
+
+			{{ render_field(form.hours) }}
+			{{ render_field(form.minutes) }}
+			<div id="elevation-div" style="display: none;">
+				{{ render_elevation_field(form.five) }}
+				{{ render_elevation_field(form.ten) }}
+				{{ render_elevation_field(form.fifteen) }}
+				{{ render_elevation_field(form.twenty) }}
+				{{ render_elevation_field(form.half) }}
+				{{ render_elevation_field(form.twentyfive) }}
+				{{ render_elevation_field(form.thirty) }}
+				{{ render_elevation_field(form.thirtyfive) }}
+				{{ render_elevation_field(form.fourty) }}
+				{{ render_elevation_field(form.full) }}
+			</div>
+			<button type="button" id="elevation" onclick="enter_elevation()">Enter Elevation Data</button>
+			<button type="submit">Submit</button>
+		</form>
 	</body>
 </html>

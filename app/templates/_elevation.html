@@ -1,0 +1,13 @@
+{% macro render_elevation_field(field) %}
+	<div class="field">
+		<p>{{ field.label }}</p>
+		<p>{{ field(class_="elevation-field")|safe }}</p>
+		{% if field.errors %} 
+			<ul>
+				{% for error in field.errors %} 
+					<li>{{ error }}</li>
+				{% endfor %}
+			</ul>
+		{% endif %}
+	</div>
+{% endmacro %}
