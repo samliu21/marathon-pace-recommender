@@ -1,10 +1,10 @@
 from flask_wtf import FlaskForm 
 from wtforms import FloatField
-from wtforms.validators import DataRequired, Optional
+from wtforms.validators import InputRequired, Optional
 
 class Form(FlaskForm):
-	hours = FloatField(validators=[DataRequired()])
-	minutes = FloatField(validators=[DataRequired()])
+	hours = FloatField(validators=[InputRequired()])
+	minutes = FloatField(validators=[InputRequired()])
 	five = FloatField(label='0-5', validators=[Optional()])
 	ten = FloatField(label='5-10', validators=[Optional()])
 	fifteen = FloatField(label='10-15', validators=[Optional()])
