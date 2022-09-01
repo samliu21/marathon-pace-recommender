@@ -52,7 +52,7 @@ std = _stack.std()
 
 x_df = time_df['time_full']
 y_df = (pace_df - mu) / std
-EPOCHS = 1000
+EPOCHS = 500
 BATCH_SIZE = 32
 
 x_tensor = torch.tensor(x_df.values.astype(np.float32)).reshape((x_df.shape[0], 1))
@@ -79,7 +79,7 @@ for i in range(EPOCHS):
 
 	print('Epoch {}  {}'.format(i, total_loss / BATCH_SIZE))
 
-torch.save(model.state_dict(), 'model/model.pt')
+torch.save(model, 'model/model.pt')
 
 with open('model/mu+std.txt', 'w') as out:
 	out.write('{}\n{}'.format(mu, std))
