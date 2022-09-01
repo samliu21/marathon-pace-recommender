@@ -4,6 +4,8 @@
 
 https://pace-recommender.herokuapp.com
 
+https://user-images.githubusercontent.com/64169932/188011902-6457ca55-a8e4-43a6-a6ae-07947f57aeaf.mov
+
 As a new runner 🏃 training for his first marathon, one of the things I'm struggling with is coming up with a proper pacing strategy for race day. 
 
 And then it hit me 💡... why don't I learn from runners who have already ran their first marathon? So, I looked at historical data on the world-famous Berlin marathon and examined the pacing strategy of runners who have experienced significant improvements on their finish time (e.g. > 30 mins).
