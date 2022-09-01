@@ -1,9 +1,0 @@
-__pycache__
-
-bin
-include
-lib
-pyvenv.cfg
-
-data
-backup
